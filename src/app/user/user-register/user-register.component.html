@@ -11,7 +11,9 @@
               class="form-control"
               formControlName="userName"
             />
-            <div class="alert aler-danger"></div>
+            <div *ngIf="registrationForm.get('userName')?.invalid && registrationForm.get('userName')?.touched" class="alert aler-danger">
+              Please insert username
+            </div>
           </div>
 
           <div class="form-group col-12">

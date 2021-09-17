@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-register',
@@ -13,7 +13,7 @@ export class UserRegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registrationForm = new FormGroup({
-      userName: new FormControl('Mark', Validators.required),
+      userName: new FormControl(null, Validators.required),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [
         Validators.required,
@@ -24,11 +24,11 @@ export class UserRegisterComponent implements OnInit {
         Validators.required,
         Validators.maxLength(10),
       ]),
-    });
+    }, this.passwordMatchingValidator);
   }
 
-  passwordMatchingValidator(fg: FormGroup): Validators {
-    return fg.get('password')?.value === fg.get('confirmPassword')?.value;
+  passwordMatchingValidator(fc: AbstractControl): ValidationErrors | null {
+    return fc.get('password')?.value === fc.get('confirmPassword')?.value ? null : {notMatched: true};
   }
 
   onSubmit() {}
