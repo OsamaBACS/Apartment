@@ -11,7 +11,10 @@
               class="form-control"
               formControlName="userName"
             />
-            <div *ngIf="registrationForm.get('userName')?.invalid && registrationForm.get('userName')?.touched" class="alert aler-danger">
+            <div
+              *ngIf="UserName?.invalid && UserName?.touched"
+              class="alert alert-danger"
+            >
               Please insert username
             </div>
           </div>
@@ -19,10 +22,17 @@
           <div class="form-group col-12">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" formControlName="email" />
-            <span class="error-block">
-              <span> Please provide an Email Id </span>
-              <span> Please provide valid Email Id </span>
-            </span>
+            <div
+              class="alert alert-danger"
+              *ngIf="Email?.invalid && Email.touched"
+            >
+              <div *ngIf="Email.errors!.required">
+                Please provide an Email Id
+              </div>
+              <div *ngIf="Email.errors!.email">
+                Please provide valid Email Id
+              </div>
+            </div>
           </div>
 
           <div class="form-group col-12">
@@ -32,10 +42,17 @@
               class="form-control"
               formControlName="password"
             />
-            <span class="error-block">
-              <span> Please provide a password </span>
-              <span> Password must be at least 8 characters </span>
-            </span>
+            <div
+              *ngIf="Password.invalid && Password.touched"
+              class="alert alert-danger"
+            >
+              <div *ngIf="Password.errors!.required">
+                Please provide a password
+              </div>
+              <div *ngIf="Password.errors!.minlength">
+                Password must be at least 8 characters
+              </div>
+            </div>
           </div>
 
           <div class="form-group col-12">
@@ -45,10 +62,20 @@
               class="form-control"
               formControlName="confirmPassword"
             />
-            <span class="error-block">
-              <span> Please Confirm Password </span>
-            </span>
-            <span> Password not Matched </span>
+            <div
+              *ngIf="ConfirmPassword.invalid && ConfirmPassword.touched"
+              class="alert alert-danger"
+            >
+              <div *ngIf="ConfirmPassword.errors!.required">
+                Please Confirm Password
+              </div>
+            </div>
+            <div
+              class="alert alert-danger"
+              *ngIf="registrationForm.errors?.confirmedValidator"
+            >
+              Password not Matched
+            </div>
           </div>
 
           <div class="form-group col-12">
@@ -58,10 +85,15 @@
               class="form-control"
               formControlName="mobile"
             />
-            <span class="error-block">
-              <span> Please provide a Mobile </span>
-              <span> Password should be 10 characters </span>
-            </span>
+            <div
+              *ngIf="Mobile.invalid && Mobile.touched"
+              class="alert alert-danger"
+            >
+              <div *ngIf="Mobile.errors!.required">Please provide a Mobile</div>
+              <div *ngIf="Mobile.errors!.minlength">
+                Password should be 10 characters
+              </div>
+            </div>
           </div>
 
           <div class="form-group col-12">
