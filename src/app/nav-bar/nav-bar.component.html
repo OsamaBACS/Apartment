@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-  <div class="container-fluid">
+  <div class="container">
     <a class="navbar-brand" routerLink="/">Apartment</a>
     <button
       class="navbar-toggler"
@@ -43,7 +43,7 @@
       </ul>
       <div>
         <ul class="nav navbar-nav">
-          <li class="nav-item">
+          <li *ngIf="!loggedIn()" class="nav-item">
             <a
               routerLink="/user/register"
               routerLinkActive="active"
@@ -52,13 +52,42 @@
             >
           </li>
           <li class="nav-item">
-            <a
+            <a *ngIf="!loggedIn()"
               routerLink="/user/login"
               routerLinkActive="active"
               class="nav-link"
               >Login</a
             >
           </li>
+          <!-- <li *ngIf="loggedIn()" class="nav-item">
+            <a
+              class="nav-link" (click)="onLogout()"
+              >Logout</a
+            >
+          </li> -->
+          <div *ngIf="loggedIn()" class="dropdown" dropdown>
+            <a href="#" class="dropdown-toggle text-light" dropdownToggle (click)="false">
+              Welcome {{ loggedInUser }}
+            </a>
+            <div class="dropdown-menu" *dropdownMenu>
+              <a href="" class="dropdown-item">
+                <i class="fas fa-tachometer-alt"></i>
+                View Dashboard
+              </a>
+              <a href="" class="dropdown-item">
+                <i class="far fa-user-circle"></i>
+                My Profile
+              </a>
+              <a href="" class="dropdown-item">
+                <i class="fas fa-key"></i>
+                Change Password
+              </a>
+              <a href="" class="dropdown-item" (click)="onLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
         </ul>
       </div>
     </div>
