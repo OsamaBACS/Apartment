@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { User } from 'src/app/model/user';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 
 @Component({
-  selector: 'app-user-register',
+  selector: 'user-register',
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.css'],
 })
