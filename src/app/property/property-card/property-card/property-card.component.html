@@ -12,7 +12,7 @@
       src="assets/images/house_default1.png"
       alt=""
     />
-    <ul class="list-inline text-center member-icons animate">
+    <ul *ngIf="!hideIcons" class="list-inline text-center member-icons animate">
       <li class="list-inline-item">
         <button
           class="btn btn-primary"
@@ -29,8 +29,18 @@
     </ul>
   </div>
   <div class="card-body p-2">
-    <h3>{{ property.Name }}</h3>
-    <h3>{{ property.Type }}</h3>
-    <h3>{{ property.Price }}</h3>
+    <h1 class="mb-0"> {{property.BHK}} BHK {{property.PType}} </h1>
+
+    in {{property.Name}}
+    <span *ngIf="property.Name">,</span>
+    {{property.City}}
+
+    <h6  class="mt-2">{{property.FType}}
+    <span *ngIf="property.FType !== 'Unfurnished'">Furnished</span> | Ready to Move</h6>
+
+    <hr class="mt-0 mb-2">
+
+    <h6 class="mb-0">Price: <span class>{{property.Price}} USD.</span> |
+      Area:  <span>{{property.BuiltArea}} Sq Ft </span> </h6>
   </div>
 </div>
