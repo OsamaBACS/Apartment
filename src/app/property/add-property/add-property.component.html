@@ -5,13 +5,13 @@
         <h3>List your Property</h3>
       </div>
       <div class="card-body shadow-lg p-3 mb-5 bg-body rounded">
-        <form #Form="ngForm" (ngSubmit)="onSubmit()">
+        <form (ngSubmit)="onSubmit()" [formGroup]="addPropertyForm">
           <div class="tab-panel">
             <tabset class="member-tabset" #formTabs>
-              <tab heading="Basic Info" ngModelGroup="BasicInfo" #BasicInfo="ngModelGroup">
+              <tab heading="Basic Info" formGroupName="BasicInfo">
                 <div class="form-group col-12">
                   <p>I want to</p>
-                  <div class="btn-group" btnRadioGroup ngModel name="SellRent" required>
+                  <div class="btn-group" btnRadioGroup formControlName="SellRent">
                     <label
                       class="btn btn-outline-primary me-2"
                       btnRadio="1"
@@ -27,6 +27,9 @@
                       >Rent</label
                     >
                   </div>
+                  <div class="alert alert-danger" *ngIf="SellRent.invalid && NextClicked">
+                    Please select Sell or Rent
+                  </div>
                 </div>
                 <div class="form-group col-12">
                   <!-- BHK => Bedroom, Hall, Kitchen -->
@@ -35,6 +38,7 @@
                     class="btn-group"
                     btnRadioGroup
                     [(ngModel)]="propertyView.BHK"
+                    [ngModelOptions]="{standalone: true}"
                     name="BHK"
                   >
                     <label
@@ -52,7 +56,7 @@
                   <div
                     class="btn-group"
                     btnRadioGroup
-                    name="propType"
+                    formControlName="PType"
                     [(ngModel)]="propertyView.PType"
                   >
                     <label
@@ -71,6 +75,7 @@
                     class="btn-group"
                     btnRadioGroup
                     [(ngModel)]="propertyView.FType"
+                    [ngModelOptions]="{standalone: true}"
                     name="FType"
                   >
                     <label
@@ -90,14 +95,12 @@
                   <input
                     type="text"
                     class="form-control"
-                    #name="ngModel"
-                    ngModel
-                    name="Name"
+                    formControlName="Name"
                     minlength="5"
                     required
                     [(ngModel)]="propertyView.Name"
                   />
-                  <div
+                  <!-- <div
                     *ngIf="name.invalid && name.touched"
                     class="alert alert-danger"
                   >
@@ -107,7 +110,7 @@
                     <div *ngIf="name.errors?.minlength">
                       Name must be more than 5 characters!
                     </div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="form-group col-12">
                   <label type="text">City</label>
@@ -115,6 +118,7 @@
                     type="text"
                     class="form-control"
                     [(ngModel)]="propertyView.City"
+                    [ngModelOptions]="{standalone: true}"
                     name="city"
                   />
                 </div>
@@ -122,23 +126,25 @@
                   <button
                     type="button"
                     class="btn btn-primary me-3"
-                    (click)="selectTab(1)"
-                    [disabled]="BasicInfo.invalid"
+                    (click)="selectTab(1, BasicInfo.valid)"
                   >
                     Next
                   </button>
                 </div>
               </tab>
               <!-- ////////////////  Pricing  //////////////// -->
-              <tab heading="Pricing and Area">
+              <tab heading="Pricing and Area" formGroupName="PriceInfo">
                 <div class="form-group col-12">
                   <label>Price (in USD)</label>
                   <input
                     type="text"
                     class="form-control"
-                    name="price"
+                    formControlName="Price"
                     [(ngModel)]="propertyView.Price"
                   />
+                  <div class="alert alert-danger" *ngIf="Price.invalid && (NextClicked || Price.touched)">
+                    Please add price
+                  </div>
                 </div>
 
                 <div class="form-group col-12">
@@ -157,7 +163,7 @@
                     type="text"
                     class="form-control"
                     [(ngModel)]="propertyView.BuiltArea"
-                    name="builtArea"
+                    formControlName="BuiltArea"
                   />
                 </div>
 
@@ -169,14 +175,14 @@
                   <button
                     type="button"
                     class="btn btn-primary me-3"
-                    (click)="selectTab(2)"
+                    (click)="selectTab(2, PriceInfo.invalid)"
                   >
                     Next
                   </button>
                   <button
                     type="button"
                     class="btn btn-primary me-3"
-                    (click)="selectTab(0)"
+                    (click)="selectTab(0, true)"
                   >
                     Back
                   </button>
@@ -207,14 +213,14 @@
                   <button
                     type="button"
                     class="btn btn-primary me-3"
-                    (click)="selectTab(3)"
+                    (click)="selectTab(3, true)"
                   >
                     Next
                   </button>
                   <button
                     type="button"
                     class="btn btn-primary me-3"
-                    (click)="selectTab(1)"
+                    (click)="selectTab(1, true)"
                   >
                     Back
                   </button>
@@ -284,14 +290,14 @@
                   <button
                     type="button"
                     class="btn btn-primary me-3"
-                    (click)="selectTab(4)"
+                    (click)="selectTab(4, true)"
                   >
                     Next
                   </button>
                   <button
                     type="button"
                     class="btn btn-primary me-3"
-                    (click)="selectTab(2)"
+                    (click)="selectTab(2, true)"
                   >
                     Back
                   </button>
@@ -309,7 +315,7 @@
                   <button
                     type="button"
                     class="btn btn-primary me-3"
-                    (click)="selectTab(3)"
+                    (click)="selectTab(3, true)"
                   >
                     Back
                   </button>

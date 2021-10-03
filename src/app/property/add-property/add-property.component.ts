@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { IPropertyBase } from 'src/app/model/ipropertybase';
@@ -10,8 +10,11 @@ import { IPropertyBase } from 'src/app/model/ipropertybase';
   styleUrls: ['./add-property.component.css'],
 })
 export class AddPropertyComponent implements OnInit {
-  @ViewChild('Form') addPropertyForm!: NgForm;
+  // @ViewChild('Form') addPropertyForm!: NgForm;
   @ViewChild('formTabs') formTabs!: TabsetComponent;
+
+  addPropertyForm!: FormGroup;
+  NextClicked!: boolean;
 
   // Will come from master
   propertyTypes: Array<string> = ['House', 'Apartment', 'Duplex'];
@@ -31,20 +34,79 @@ export class AddPropertyComponent implements OnInit {
     RTM: 0,
   };
 
-  constructor(private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.createAddPropertyForm();
+  }
+
+  createAddPropertyForm() {
+    this.addPropertyForm = this.fb.group({
+      BasicInfo: this.fb.group({
+        SellRent: [null, Validators.required],
+        PType: [null, Validators.required],
+        Name: [null, Validators.required],
+      }),
+      PriceInfo: this.fb.group({
+        Price: [null, Validators.required],
+        BuiltArea: [null, Validators.required],
+      }),
+    });
+  }
+
+  //------------------------------
+  // Getter Methods
+  //------------------------------
+
+  get BasicInfo() {
+    return this.addPropertyForm.controls.BasicInfo as FormGroup;
+  }
+
+  get SellRent() {
+    return this.BasicInfo.controls.SellRent as FormControl;
+  }
+  get PType() {
+    return this.BasicInfo.controls.PType as FormControl;
+  }
+  get Name() {
+    return this.BasicInfo.controls.Name as FormControl;
+  }
+
+  get PriceInfo() {
+    return this.addPropertyForm.controls.PriceInfo as FormGroup;
+  }
+
+  get Price() {
+    return this.PriceInfo.controls.Price as FormControl;
+  }
+  get BuiltArea() {
+    return this.PriceInfo.controls.BuiltArea as FormControl;
+  }
+
+  //------------------------------
 
   onBack() {
     this.router.navigate(['/']);
   }
 
   onSubmit() {
+    this.NextClicked = true;
+    if(this.BasicInfo.invalid){
+      this.formTabs.tabs[0].active = true;
+      return;
+    }
+    if(this.PriceInfo.invalid){
+      this.formTabs.tabs[1].active = true;
+      return;
+    }
     console.log(this.addPropertyForm);
     console.log('SellRent = ' + this.addPropertyForm.value.BasicInfo.SellRent);
   }
 
-  selectTab(tabId: number) {
-    this.formTabs.tabs[tabId].active = true;
+  selectTab(tabId: number, IsCurrentTabValid: boolean) {
+    this.NextClicked = true;
+    if (IsCurrentTabValid) {
+      this.formTabs.tabs[tabId].active = true;
+    }
   }
 }
