@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "apartment-angular"
+  },
+  "targets": {
+    "apartment-angular": {
+      "hosting": {
+        "Apartment": [
+          "apartment-angular"
+        ]
+      }
+    }
+  }
+}
