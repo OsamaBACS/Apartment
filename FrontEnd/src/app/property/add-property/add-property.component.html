@@ -1,4 +1,4 @@
-<div class="row mb-10">
+<div class="row mt-5">
   <div class="col-8">
     <div class="card">
       <div class="card-header text-center">
@@ -137,13 +137,18 @@
                 </div>
                 <div class="form-group col-12">
                   <label type="text">City</label>
-                  <input
-                    type="text"
-                    class="form-control"
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
                     [(ngModel)]="propertyView.City"
                     formControlName="City"
                     name="city"
-                  />
+                  >
+                    <option selected value="">--select city--</option>
+                    <option *ngFor="let city of cityList" value="{{ city.id }}">
+                      {{ city.name }}
+                    </option>
+                </select>
                   <div
                     class="alert alert-danger"
                     *ngIf="City.invalid && (nextClicked || City.touched)"

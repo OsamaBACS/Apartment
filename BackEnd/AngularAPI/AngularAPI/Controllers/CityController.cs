@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AngularAPI.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,25 @@ namespace AngularAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly DataContext dc;
+
+        public CityController(DataContext dc)
         {
-            return new string[] { "Atlanta", "New York", "Canada" };
+            this.dc = dc;
+
+        }
+
+        [HttpGet]
+        public IActionResult GetCities()
+        {
+            var cities = dc.Cities.ToList();
+            return Ok(cities);
+        }
+        
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return "Atlanta";
         }
     }
 }
