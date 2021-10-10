@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AngularAPI.models;
 
-namespace AngularAPI.Data.Repo
+namespace AngularAPI.Interfaces
 {
     public interface ICityRepository
     {
@@ -11,7 +11,5 @@ namespace AngularAPI.Data.Repo
          void AddCity(City city);
 
          void DeleteCity(int cityId);
-
-         Task<bool> SaveAsync();
     }
 }

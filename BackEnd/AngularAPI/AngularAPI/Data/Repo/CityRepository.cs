@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AngularAPI.Interfaces;
 using AngularAPI.models;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,11 +29,6 @@ namespace AngularAPI.Data.Repo
         public async Task<IEnumerable<City>> GetCitiesAsync()
         {
             return await dc.Cities.ToListAsync();
-        }
-
-        public async Task<bool> SaveAsync()
-        {
-            return await dc.SaveChangesAsync() > 0;
         }
     }
 }

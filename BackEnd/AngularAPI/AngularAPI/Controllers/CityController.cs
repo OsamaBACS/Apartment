@@ -7,7 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AngularAPI.models;
-using AngularAPI.Data.Repo;
+using AngularAPI.Interfaces;
+using AngularAPI.Dtos;
 
 namespace AngularAPI.Controllers
 {
@@ -15,18 +16,25 @@ namespace AngularAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly ICityRepository reop;
+        private readonly IUnitOfWork uow;
 
-        public CityController(ICityRepository reop)
+        public CityController(IUnitOfWork uow)
         {
-            this.reop = reop;
+            this.uow = uow;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCities()
         {
-            var cities = await reop.GetCitiesAsync();
-            return Ok(cities);
+            var cities = await uow.cityRepository.GetCitiesAsync();
+
+            var citiesDto = from c in cities
+                            select new CityDto(){
+                                Id = c.Id,
+                                Name = c.Name
+                            };
+
+            return Ok(citiesDto);
         }
 
         // Post api/city/add?cityname=Miami
@@ -44,10 +52,15 @@ namespace AngularAPI.Controllers
         
         // Post api/city/post   --- Post data in JSON Format
         [HttpPost("post")]
-        public async Task<IActionResult> AddCity(City city)
+        public async Task<IActionResult> AddCity(CityDto cityDto)
         {
-            reop.AddCity(city);
-            await reop.SaveAsync();
+            var city = new City {
+                Name = cityDto.Name,
+                LastUpdatedBy = 1,
+                LastUpdatedOn = DateTime.Now
+            };
+            uow.cityRepository.AddCity(city);
+            await uow.SaveAsync();
             return StatusCode(201);
         }
 
@@ -55,8 +68,8 @@ namespace AngularAPI.Controllers
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteCity(int id)
         {
-            reop.DeleteCity(id);
-            await reop.SaveAsync();
+            uow.cityRepository.DeleteCity(id);
+            await uow.SaveAsync();
             return Ok(id);
         }
         
