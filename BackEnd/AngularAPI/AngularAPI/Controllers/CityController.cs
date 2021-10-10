@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using AngularAPI.models;
 using AngularAPI.Interfaces;
 using AngularAPI.Dtos;
+using AutoMapper;
 
 namespace AngularAPI.Controllers
 {
@@ -17,10 +18,12 @@ namespace AngularAPI.Controllers
     public class CityController : ControllerBase
     {
         private readonly IUnitOfWork uow;
+        private readonly IMapper mapper;
 
-        public CityController(IUnitOfWork uow)
+        public CityController(IUnitOfWork uow, IMapper mapper)
         {
             this.uow = uow;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -28,11 +31,12 @@ namespace AngularAPI.Controllers
         {
             var cities = await uow.cityRepository.GetCitiesAsync();
 
-            var citiesDto = from c in cities
-                            select new CityDto(){
-                                Id = c.Id,
-                                Name = c.Name
-                            };
+            var citiesDto = mapper.Map<IEnumerable<CityDto>>(cities);
+            // var citiesDto = from c in cities
+            //                 select new CityDto(){
+            //                     Id = c.Id,
+            //                     Name = c.Name
+            //                 };
 
             return Ok(citiesDto);
         }
@@ -54,11 +58,16 @@ namespace AngularAPI.Controllers
         [HttpPost("post")]
         public async Task<IActionResult> AddCity(CityDto cityDto)
         {
-            var city = new City {
-                Name = cityDto.Name,
-                LastUpdatedBy = 1,
-                LastUpdatedOn = DateTime.Now
-            };
+            // var city = new City {
+            //     Name = cityDto.Name,
+            //     LastUpdatedBy = 1,
+            //     LastUpdatedOn = DateTime.Now
+            // };
+
+            var city = mapper.Map<City>(cityDto);
+            city.LastUpdatedBy = 1;
+            city.LastUpdatedOn = DateTime.Now;
+
             uow.cityRepository.AddCity(city);
             await uow.SaveAsync();
             return StatusCode(201);
