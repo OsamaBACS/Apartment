@@ -10,6 +10,7 @@ using AngularAPI.models;
 using AngularAPI.Interfaces;
 using AngularAPI.Dtos;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace AngularAPI.Controllers
 {
@@ -71,6 +72,33 @@ namespace AngularAPI.Controllers
             uow.cityRepository.AddCity(city);
             await uow.SaveAsync();
             return StatusCode(201);
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateCity(int id, CityDto cityDto)
+        {
+            var cityFromDb = await uow.cityRepository.FindCity(id);
+            cityFromDb.LastUpdatedBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            mapper.Map(cityDto, cityFromDb);
+
+            await uow.SaveAsync();
+
+            return StatusCode(200);
+        }
+
+        [HttpPatch("update/{id}")]
+        public async Task<IActionResult> UpdateCityPatch(int id, JsonPatchDocument<City> cityTpPatch)
+        {
+            var cityFromDb = await uow.cityRepository.FindCity(id);
+            cityFromDb.LastUpdatedBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            
+            cityTpPatch.ApplyTo(cityFromDb, ModelState);
+
+            await uow.SaveAsync();
+
+            return StatusCode(200);
         }
 
         // Post api/city/id
