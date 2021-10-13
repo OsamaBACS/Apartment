@@ -54,7 +54,7 @@ namespace AngularAPI.Controllers
         //     await dc.SaveChangesAsync();
         //     return Ok(newCity);
         // }
-        
+
         // Post api/city/post   --- Post data in JSON Format
         [HttpPost("post")]
         public async Task<IActionResult> AddCity(CityDto cityDto)
@@ -77,23 +77,37 @@ namespace AngularAPI.Controllers
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateCity(int id, CityDto cityDto)
         {
-            var cityFromDb = await uow.cityRepository.FindCity(id);
-            cityFromDb.LastUpdatedBy = 1;
-            cityFromDb.LastUpdatedOn = DateTime.Now;
-            mapper.Map(cityDto, cityFromDb);
+            try
+            {
+                if (id != cityDto.Id)
+                    return BadRequest("Update are not allowed!");
 
-            await uow.SaveAsync();
+                var cityFromDb = await uow.cityRepository.FindCity(id);
 
-            return StatusCode(200);
+                if (cityFromDb == null)
+                    return BadRequest("Update are not allowed!");
+
+                cityFromDb.LastUpdatedBy = 1;
+                cityFromDb.LastUpdatedOn = DateTime.Now;
+                mapper.Map(cityDto, cityFromDb);
+
+                await uow.SaveAsync();
+
+                return StatusCode(200);
+            }
+            catch
+            {
+                return StatusCode(500, "Unknown error occured!");
+            }
         }
 
-        [HttpPatch("update/{id}")]
+        [HttpPatch("updateCityName/{id}")]
         public async Task<IActionResult> UpdateCityPatch(int id, JsonPatchDocument<City> cityTpPatch)
         {
             var cityFromDb = await uow.cityRepository.FindCity(id);
             cityFromDb.LastUpdatedBy = 1;
             cityFromDb.LastUpdatedOn = DateTime.Now;
-            
+
             cityTpPatch.ApplyTo(cityFromDb, ModelState);
 
             await uow.SaveAsync();
@@ -109,7 +123,7 @@ namespace AngularAPI.Controllers
             await uow.SaveAsync();
             return Ok(id);
         }
-        
-        
+
+
     }
 }
