@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/BackEnd/AngularAPI/AngularAPI/AngularAPI.csproj",
+                "${workspaceFolder}/BackEnd/AngularAPI.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/BackEnd/AngularAPI/AngularAPI/AngularAPI.csproj",
+                "${workspaceFolder}/BackEnd/AngularAPI.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
