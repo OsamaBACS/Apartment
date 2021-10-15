@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+// using AngularAPI.Extensions;
 
 namespace AngularAPI
 {
@@ -35,19 +36,24 @@ namespace AngularAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // app.ConfigureExceptionHandler(env);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            } 
-            else 
+            }
+            else
             {
                 app.UseExceptionHandler(
-                    options => {
+                    options =>
+                    {
                         options.Run(
-                            async context => {
+                            async context =>
+                            {
                                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                                 var ex = context.Features.Get<IExceptionHandlerFeature>();
-                                if (ex != null){
+                                if (ex != null)
+                                {
                                     await context.Response.WriteAsync(ex.Error.Message);
                                 }
                             }
