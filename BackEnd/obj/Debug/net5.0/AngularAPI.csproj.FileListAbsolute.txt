@@ -116,3 +116,4 @@ C:\Users\user\Documents\Angular_Projects\Apartment\BackEnd\obj\Debug\net5.0\scop
 C:\Users\user\Documents\Angular_Projects\Apartment\BackEnd\obj\Debug\net5.0\AngularAPI.RazorTargetAssemblyInfo.cache
 C:\Users\user\Documents\Angular_Projects\Apartment\BackEnd\obj\Debug\net5.0\AngularAPI.csproj.CopyComplete
 C:\Users\user\Documents\Angular_Projects\Apartment\BackEnd\obj\Debug\net5.0\AngularAPI.genruntimeconfig.cache
+C:\Users\user\Documents\Angular_Projects\Apartment\BackEnd\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

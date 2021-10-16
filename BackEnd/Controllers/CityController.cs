@@ -11,12 +11,13 @@ using BackEnd.Interfaces;
 using BackEnd.Dtos;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEnd.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CityController : ControllerBase
+    [Authorize]
+    //                      This is Custom Controller
+    public class CityController : BaseController
     {
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
@@ -27,6 +28,7 @@ namespace BackEnd.Controllers
             this.mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCities()
         {

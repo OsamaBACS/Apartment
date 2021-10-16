@@ -18,6 +18,10 @@ namespace BackEnd
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration(configHost => 
+                {
+                    configHost.AddEnvironmentVariables(prefix:"AngularAPI_");
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
