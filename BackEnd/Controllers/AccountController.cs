@@ -40,6 +40,18 @@ namespace BackEnd.Controllers
             return Ok(loginRes);
         }
 
+        // api/account/login
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(LoginReqDto loginReq)
+        {
+            if(await uow.userRepository.UserAlreadyExists(loginReq.Username))
+                return BadRequest("User Already Exist!");
+            
+            uow.userRepository.Register(loginReq.Username, loginReq.Password);
+            await uow.SaveAsync();
+            return StatusCode(201);
+        }
+
         //         JWT=> JSON Web Token
         public string CreateJWT(User user)
         {

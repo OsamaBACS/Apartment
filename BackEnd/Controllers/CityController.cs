@@ -29,7 +29,7 @@ namespace BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpGet ("cities")]
         public async Task<IActionResult> GetCities()
         {
             var cities = await uow.cityRepository.GetCitiesAsync();
