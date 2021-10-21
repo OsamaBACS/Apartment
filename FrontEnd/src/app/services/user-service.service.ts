@@ -4,9 +4,12 @@ import { User } from '../model/user';
 @Injectable({
   providedIn: 'root'
 })
+
+// This Class is no longer use
 export class UserServiceService {
 
 constructor() { }
+
 
 addUser(user: User){
   let users = [];

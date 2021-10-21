@@ -30,7 +30,7 @@ namespace BackEnd.Controllers
             var user = await uow.userRepository.Authenticate(loginReq.Username, loginReq.Password);
             if (user == null)
             {
-                return Unauthorized();
+                return Unauthorized("Invalid username or password!");
             }
 
             var loginRes = new LoginResponseDto();
