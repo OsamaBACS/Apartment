@@ -4,6 +4,8 @@ namespace BackEnd.Errors
 {
     public class ApiError
     {
+        public ApiError(){}
+
         public ApiError(int errorCode, string errorMessage, string errorDetailes = null)
         {
             ErrorCode = errorCode;
@@ -17,7 +19,11 @@ namespace BackEnd.Errors
 
         public override string ToString()
         {
-            return JsonSerializer.Serialize(this);
+            var options = new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+            return JsonSerializer.Serialize(this, options);
         }
     }
 }

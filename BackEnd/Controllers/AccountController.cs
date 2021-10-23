@@ -4,6 +4,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using BackEnd.Dtos;
+using BackEnd.Errors;
+using BackEnd.Extensions;
 using BackEnd.Interfaces;
 using BackEnd.models;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +30,15 @@ namespace BackEnd.Controllers
         public async Task<IActionResult> login(LoginReqDto loginReq)
         {
             var user = await uow.userRepository.Authenticate(loginReq.Username, loginReq.Password);
+            
+            var apiError = new ApiError();
+
             if (user == null)
             {
-                return Unauthorized("Invalid username or password!");
+                apiError.ErrorCode = Unauthorized().StatusCode;
+                apiError.ErrorMessage = "Invalid username or password!";
+                apiError.ErrorDetailes = "This error appear when provided username or password does not exist!";
+                return Unauthorized(apiError);
             }
 
             var loginRes = new LoginResponseDto();
@@ -44,8 +52,20 @@ namespace BackEnd.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(LoginReqDto loginReq)
         {
+            var apiError = new ApiError();
+            if(loginReq.Username.isEmpty() || loginReq.Password.isEmpty())
+            {
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "Username or Password could not be blank!";
+                return BadRequest(apiError);
+            }
+
             if(await uow.userRepository.UserAlreadyExists(loginReq.Username))
-                return BadRequest("User Already Exist!");
+            {
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "User Already Exist!";
+                return BadRequest(apiError);
+            }
             
             uow.userRepository.Register(loginReq.Username, loginReq.Password);
             await uow.SaveAsync();
