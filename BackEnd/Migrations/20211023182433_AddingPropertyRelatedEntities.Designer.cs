@@ -176,7 +176,7 @@ namespace BackEnd.Migrations
                     b.Property<int>("SellRent")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotlaFloors")
+                    b.Property<int>("TotalFloors")
                         .HasColumnType("int");
 
                     b.Property<int?>("userId")

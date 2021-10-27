@@ -27,7 +27,7 @@ namespace BackEnd.models
         public City City { get; set; }
 
         public int FloorNo { get; set; }
-        public int TotlaFloors { get; set; }
+        public int TotalFloors { get; set; }
         public bool ReadyToMove { get; set; }
         public string MainEntrance { get; set; }
         public int Security { get; set; }

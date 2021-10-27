@@ -45,7 +45,7 @@
                     class="btn-group"
                     btnRadioGroup
                     formControlName="BHK"
-                    [(ngModel)]="propertyView.BHK"
+                    [(ngModel)]="propertyView.bhk"
                     name="BHK"
                   >
                     <label
@@ -73,7 +73,7 @@
                     class="btn-group"
                     btnRadioGroup
                     formControlName="PType"
-                    [(ngModel)]="propertyView.PType"
+                    [(ngModel)]="propertyView.propertyType"
                   >
                     <label
                       *ngFor="let ptype of propertyTypes"
@@ -96,7 +96,7 @@
                   <div
                     class="btn-group"
                     btnRadioGroup
-                    [(ngModel)]="propertyView.FType"
+                    [(ngModel)]="propertyView.furnishingType"
                     formControlName="FType"
                     name="FType"
                   >
@@ -126,7 +126,7 @@
                     formControlName="Name"
                     minlength="5"
                     required
-                    [(ngModel)]="propertyView.Name"
+                    [(ngModel)]="propertyView.name"
                   />
                   <div
                     class="alert alert-danger"
@@ -140,7 +140,7 @@
                   <select
                     class="form-select"
                     aria-label="Default select example"
-                    [(ngModel)]="propertyView.City"
+                    [(ngModel)]="propertyView.city"
                     formControlName="City"
                     name="city"
                   >
@@ -175,7 +175,7 @@
                     type="text"
                     class="form-control"
                     formControlName="Price"
-                    [(ngModel)]="propertyView.Price"
+                    [(ngModel)]="propertyView.price"
                   />
                   <div
                     class="alert alert-danger"
@@ -212,7 +212,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    [(ngModel)]="propertyView.BuiltArea"
+                    [(ngModel)]="propertyView.builtArea"
                     formControlName="BuiltArea"
                   />
                   <div

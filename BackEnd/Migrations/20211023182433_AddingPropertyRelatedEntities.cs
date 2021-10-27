@@ -69,7 +69,7 @@ namespace BackEnd.Migrations
                     Address2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     FloorNo = table.Column<int>(type: "int", nullable: false),
-                    TotlaFloors = table.Column<int>(type: "int", nullable: false),
+                    TotalFloors = table.Column<int>(type: "int", nullable: false),
                     ReadyToMove = table.Column<bool>(type: "bit", nullable: false),
                     MainEntrance = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Security = table.Column<int>(type: "int", nullable: false),

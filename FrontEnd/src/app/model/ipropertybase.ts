@@ -1,13 +1,14 @@
 export interface IPropertyBase {
-  Id: number;
-  SellRent: number;
-  Name: string;
-  PType: string;
-  FType: string;
-  Price: number;
-  BHK: number; // Bedroom, Hall, Kitchen
-  BuiltArea: number;
-  City: string;
-  RTM: number; // Ready To Move
-  Image?: string;
+  id: number;
+  sellRent: number;
+  name: string;
+  propertyType: string;
+  furnishingType: string;
+  price: number;
+  bhk: number; // Bedroom, Hall, Kitchen
+  builtArea: number;
+  city: string;
+  readyToMove: number; // Ready To Move
+  image?: string;
+  estPossessionOn?: Date;
 }

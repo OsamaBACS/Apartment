@@ -28,6 +28,7 @@ export class PropertyDetailComponent implements OnInit {
   ngOnInit(): void {
     // this.propertyId = Number(this.route.snapshot.params['id']);
     this.propertyId = +this.route.snapshot.params['id'];
+    this.property.age = this.housingService.getPropertyAge(this.property.estPossessionOn!);
 
     // this.route.data.subscribe(
     //   (data: any) => {

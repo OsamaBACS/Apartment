@@ -20,49 +20,50 @@ export class HousingService {
   }
 
   getProperty(Id: number){
-    return this.getAllProperties().pipe(
-      map(propertiesArray => {
-        let propArray = propertiesArray.find((p) => p.Id === Id);
-        if(propArray === undefined) throw new Error('Some Error');
+    return this.http.get<Property>(this.baseUrl + '/property/detail/' + Id);
+    // return this.getAllProperties(1).pipe(
+    //   map(propertiesArray => {
+    //     let propArray = propertiesArray.find((p) => p.id === Id);
+    //     if(propArray === undefined) throw new Error('Some Error');
 
-        return propArray;
-      })
-    );
+    //     return propArray;
+    //   })
+    // );
   }
 
   getAllProperties(SellRent?: number): Observable<Property[]> {
-    return this.http.get('data/properties.json').pipe(
-      map((data: any) => {
-        const propertiesArray: Array<Property> = [];
-        const localProperties = JSON.parse(localStorage.getItem('newProp')!);
-        if(localProperties){
-          for (var id in localProperties) {
-            if(SellRent){
-              if (
-                localProperties.hasOwnProperty(id) &&
-                localProperties[id].SellRent === SellRent
-              ) {
-                propertiesArray.push(localProperties[id]);
-              }
-            } else {
-              propertiesArray.push(localProperties[id]);
-            }
-          }
-        }
+    return this.http.get<Property[]>(this.baseUrl + '/property/list/' + SellRent?.toString());
+    // return this.http.get('data/properties.json').pipe(
+    //   map((data: any) => {
+    //     const propertiesArray: Array<Property> = [];
+    //     const localProperties = JSON.parse(localStorage.getItem('newProp')!);
+    //     if(localProperties){
+    //       for (var id in localProperties) {
+    //         if(SellRent){
+    //           if (
+    //             localProperties.hasOwnProperty(id) &&
+    //             localProperties[id].SellRent === SellRent
+    //           ) {
+    //             propertiesArray.push(localProperties[id]);
+    //           }
+    //         } else {
+    //           propertiesArray.push(localProperties[id]);
+    //         }
+    //       }
+    //     }
 
-        for (var id in data) {
-          if (SellRent){
-            if (data.hasOwnProperty(id) && data[id].SellRent === SellRent) {
-              propertiesArray.push(data[id]);
-            }
-          } else {
-            propertiesArray.push(data[id]);
-          }
-        }
-        return propertiesArray;
-      })
-    );
-    return this.http.get<Property[]>('data/properties.json');
+    //     for (var id in data) {
+    //       if (SellRent){
+    //         if (data.hasOwnProperty(id) && data[id].SellRent === SellRent) {
+    //           propertiesArray.push(data[id]);
+    //         }
+    //       } else {
+    //         propertiesArray.push(data[id]);
+    //       }
+    //     }
+    //     return propertiesArray;
+    //   })
+    // );
   }
   addProperty(property: Property) {
     let newProp = [property];
@@ -80,5 +81,30 @@ export class HousingService {
       localStorage.setItem('PID', '101');
       return 101;
     }
+  }
+
+  getPropertyAge(dateOfEstablishment: Date): string
+  {
+    const today = new Date();
+    const estDate = new Date(dateOfEstablishment);
+    let age = today.getFullYear() - estDate.getFullYear();
+    const m = today.getMonth() - estDate.getMonth();
+
+    // Current month smaller than establishment month or
+    // Same month but current date smaller than establishment date
+    if(m < 0 || (m === 0 && today.getDate() < estDate.getDate()))
+    {
+      age--;
+    }
+
+    // Establishment date is future date
+    if(today < estDate)
+      return '0';
+
+    // Age less than a year
+    if(age === 0)
+      return 'Age is less than a year';
+
+    return age.toString();
   }
 }
