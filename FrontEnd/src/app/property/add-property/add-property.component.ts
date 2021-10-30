@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
+import { Ikeyvaluepair } from 'src/app/model/ikeyvaluepair';
 import { IPropertyBase } from 'src/app/model/ipropertybase';
 import { Property } from 'src/app/model/property';
 import { AlertifyService } from 'src/app/services/alertify.service';
@@ -28,8 +29,8 @@ export class AddPropertyComponent implements OnInit {
   cityList!: any[];
 
   // Will come from master
-  propertyTypes: Array<string> = ['House', 'Apartment', 'Duplex'];
-  furnishTypes: Array<string> = ['Fully', 'Semi', 'Unfurnished'];
+  propertyTypes!: Ikeyvaluepair[];
+  furnishTypes!: Ikeyvaluepair[];
   mainEntrance: Array<string> = ['East', 'West', 'South', 'North'];
 
   propertyView: IPropertyBase = {
@@ -58,6 +59,14 @@ export class AddPropertyComponent implements OnInit {
       this.cityList = data;
       console.log(data);
     });
+    this.housingService.getPropertyTypes().subscribe(data => 
+      {
+        this.propertyTypes = data;
+      });
+    this.housingService.getFurnishingTypes().subscribe(data => 
+      {
+        this.furnishTypes = data;
+      });
   }
 
   createAddPropertyForm() {

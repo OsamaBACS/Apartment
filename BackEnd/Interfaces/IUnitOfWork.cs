@@ -7,6 +7,8 @@ namespace BackEnd.Interfaces
          ICityRepository cityRepository { get; }
          IUserRepository userRepository { get; }
          IPropertyRepository propertyRepository { get; }
+         IPropertyTypeRepository propertyTypeRepository { get; }
+         IFurnishingTypeRepository furnishingTypeRepository { get; }
          Task<bool> SaveAsync();
     }
 }
