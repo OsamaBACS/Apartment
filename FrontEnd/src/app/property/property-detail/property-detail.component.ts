@@ -12,11 +12,11 @@ import { NgxGalleryAnimation } from '@kolkov/ngx-gallery';
   styleUrls: ['./property-detail.component.css'],
 })
 export class PropertyDetailComponent implements OnInit {
-  
   galleryOptions!: NgxGalleryOptions[];
   galleryImages!: NgxGalleryImage[];
 
   public propertyId!: number;
+  public mainPhotoUrl: string = '';
   property = new Property();
 
   constructor(
@@ -28,23 +28,30 @@ export class PropertyDetailComponent implements OnInit {
   ngOnInit(): void {
     // this.propertyId = Number(this.route.snapshot.params['id']);
     this.propertyId = +this.route.snapshot.params['id'];
-    this.property.age = this.housingService.getPropertyAge(this.property.estPossessionOn!);
 
     // this.route.data.subscribe(
-    //   (data: any) => {
+    //   (data: Property) => 
+    //   {
     //     this.property = data['prp'];
+    //     console.log(this.property.photos);
     //   }
     // );
+
+    this.property.age = this.housingService.getPropertyAge(
+      this.property.estPossessionOn!
+    );
 
     this.route.params.subscribe((params) => {
       this.propertyId = +params['id'];
       this.housingService.getProperty(this.propertyId).subscribe(
         (data: any) => {
-          this.property = data!;
+          this.property = data;
+          console.log(this.property.photos);
         },
         (error) => this.router.navigate(['/'])
       );
     });
+
     ///////////////////
     this.galleryOptions = [
       {
@@ -55,32 +62,23 @@ export class PropertyDetailComponent implements OnInit {
       },
     ];
 
-    this.galleryImages = [
-      {
-        small: 'assets/images/prop1.png',
-        medium: 'assets/images/prop1.png',
-        big: 'assets/images/prop1.png',
-      },
-      {
-        small: 'assets/images/prop2.png',
-        medium: 'assets/images/prop2.png',
-        big: 'assets/images/prop2.png',
-      },
-      {
-        small: 'assets/images/prop3.png',
-        medium: 'assets/images/prop3.png',
-        big: 'assets/images/prop3.png',
-      },
-      {
-        small: 'assets/images/prop4.png',
-        medium: 'assets/images/prop4.png',
-        big: 'assets/images/prop4.png',
-      },
-      {
-        small: 'assets/images/prop5.png',
-        medium: 'assets/images/prop5.png',
-        big: 'assets/images/prop5.png',
-      },
-    ];
+    this.galleryImages = this.getPropertyPhoto();
+  }
+
+  getPropertyPhoto(): NgxGalleryImage[]
+  {
+    const photoUrls : NgxGalleryImage[] = [];
+    for(let photo of this.property.photos)
+    {
+      if(photo.isBrimary) this.mainPhotoUrl = photo.imageUrl;
+      photoUrls.push(
+        {
+          small: photo.imageUrl,
+          medium: photo.imageUrl,
+          big: photo.imageUrl,
+        }
+      );
+    }
+    return photoUrls;
   }
 }

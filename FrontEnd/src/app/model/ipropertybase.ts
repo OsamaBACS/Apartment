@@ -8,7 +8,7 @@ export interface IPropertyBase {
   bhk: number; // Bedroom, Hall, Kitchen
   builtArea: number;
   city: string;
-  readyToMove: number; // Ready To Move
+  readyToMove: boolean; // Ready To Move
   image?: string;
-  estPossessionOn?: Date;
+  estPossessionOn: string;
 }

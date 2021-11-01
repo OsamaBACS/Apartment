@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -76,12 +76,19 @@ export class HousingService {
     //   })
     // );
   }
+
   addProperty(property: Property) {
-    let newProp = [property];
-    if(localStorage.getItem('newProp')){
-      newProp = [property, ...JSON.parse(localStorage.getItem('newProp')!)];
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
     }
-    localStorage.setItem('newProp', JSON.stringify(newProp));
+    return this.http.post(this.baseUrl + '/property/add', property, httpOptions);
+    // let newProp = [property];
+    // if(localStorage.getItem('newProp')){
+    //   newProp = [property, ...JSON.parse(localStorage.getItem('newProp')!)];
+    // }
+    // localStorage.setItem('newProp', JSON.stringify(newProp));
   }
 
   newPropId(){
@@ -94,7 +101,7 @@ export class HousingService {
     }
   }
 
-  getPropertyAge(dateOfEstablishment: Date): string
+  getPropertyAge(dateOfEstablishment: string): string
   {
     const today = new Date();
     const estDate = new Date(dateOfEstablishment);

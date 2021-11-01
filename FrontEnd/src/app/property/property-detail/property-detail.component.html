@@ -2,11 +2,11 @@
   <div class="col-sm-4 p-0">
     <div class="card">
       <div class="card-img-wrapper">
-        <img class="card-img-top" *ngIf="property.image" src="assets/images/{{ property.image }}.png" alt="" />
-        <img class="card-img-top" *ngIf="!property.image" src="assets/images/house_default1.png" alt="" />
+        <img class="card-img-top" *ngIf="mainPhotoUrl" src="{{ mainPhotoUrl }}" alt="" />
+        <img class="card-img-top" *ngIf="!mainPhotoUrl" src="assets/images/house_default1.png" alt="" />
       </div>
       <div class="card-body">
-        <h1 class="card-title">{{ property.name }}</h1>
+        <h1 class="card-title">{{ property?.name }}</h1>
         <div>
           <strong
             >{{ property.bhk }} BHK {{ property.propertyType }} @ ${{

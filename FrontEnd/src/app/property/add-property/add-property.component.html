@@ -50,8 +50,8 @@
                     <label
                       *ngFor="let bhk of [1, 2, 3, 4]"
                       class="btn btn-outline-primary mr-2"
-                      [btnRadio]=$any(bhk)
-                      (click)="propertyView.bhk=bhk"
+                      [btnRadio]="$any(bhk)"
+                      (click)="propertyView.bhk = bhk"
                       tabindex="0"
                       role="button"
                       name="BHK"
@@ -69,16 +69,12 @@
 
                 <div class="form-group col-12">
                   <p>Property Type</p>
-                  <div
-                    class="btn-group"
-                    btnRadioGroup
-                    formControlName="PType"
-                  >
+                  <div class="btn-group" btnRadioGroup formControlName="PType">
                     <label
                       *ngFor="let ptype of propertyTypes"
                       class="btn btn-outline-primary"
-                      [btnRadio]=$any(ptype.id)
-                      (click)="propertyView.propertyType=ptype.name"
+                      [btnRadio]="$any(ptype.id)"
+                      (click)="propertyView.propertyType = ptype.name"
                       role="button"
                       name="PropType"
                       >{{ ptype.name }}</label
@@ -102,8 +98,8 @@
                     <label
                       *ngFor="let ftype of furnishTypes"
                       class="btn btn-outline-primary"
-                      [btnRadio]=$any(ftype.id)
-                      (click)="propertyView.furnishingType=ftype.name"
+                      [btnRadio]="$any(ftype.id)"
+                      (click)="propertyView.furnishingType = ftype.name"
                       role="button"
                       name="ftype"
                       >{{ ftype.name }}</label
@@ -127,7 +123,7 @@
                     minlength="5"
                     required
                     #propName
-                    (keyup)="propertyView.name=propName.value"
+                    (keyup)="propertyView.name = propName.value"
                   />
                   <div
                     class="alert alert-danger"
@@ -138,8 +134,12 @@
                 </div>
                 <div class="form-group col-12">
                   <label type="text">City</label>
-                  <select #C
-                    (change)="propertyView.city=C.options[C.options.selectedIndex].text"
+                  <select
+                    #C
+                    (change)="
+                      propertyView.city =
+                        C.options[C.options.selectedIndex].text
+                    "
                     class="form-select"
                     aria-label="Default select example"
                     formControlName="City"
@@ -149,7 +149,7 @@
                     <option *ngFor="let city of cityList" value="{{ city.id }}">
                       {{ city.name }}
                     </option>
-                </select>
+                  </select>
                   <div
                     class="alert alert-danger"
                     *ngIf="City.invalid && (nextClicked || City.touched)"
@@ -175,8 +175,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    formControlName="Price" #propPrice
-                    (keyup)="propertyView.price=+propPrice.value"
+                    formControlName="Price"
+                    #propPrice
+                    (keyup)="propertyView.price = +propPrice.value"
                   />
                   <div
                     class="alert alert-danger"
@@ -212,8 +213,9 @@
                   <label>Built Area (in Sqr Feet)</label>
                   <input
                     type="text"
-                    class="form-control" #builtArea
-                    (keyup)="propertyView.builtArea=+builtArea.value"
+                    class="form-control"
+                    #builtArea
+                    (keyup)="propertyView.builtArea = +builtArea.value"
                     formControlName="BuiltArea"
                   />
                   <div
@@ -317,17 +319,17 @@
                   <div class="btn-group" btnRadioGroup formControlName="RTM">
                     <label
                       class="btn btn-outline-primary me-2"
-                      btnRadio="1"
+                      btnRadio=true
                       role="button"
-                      (click)="propertyView.readyToMove=1"
+                      (click)="propertyView.readyToMove = true"
                       name="RTM"
                       >Yes</label
                     >
                     <label
                       class="btn btn-outline-primary"
-                      btnRadio="2"
+                      btnRadio=false
                       role="button"
-                      (click)="propertyView.readyToMove=0"
+                      (click)="propertyView.readyToMove = false"
                       name="RTM"
                       >No</label
                     >
@@ -340,20 +342,30 @@
                   </div>
                 </div>
                 <div class="form-group col-3">
-                  <label *ngIf="propertyView.readyToMove">Establishment Date</label>
-                  <label *ngIf="!propertyView.readyToMove">Possession Date</label>
+                  <label *ngIf="propertyView.readyToMove"
+                    >Establishment Date</label
+                  >
+                  <label *ngIf="!propertyView.readyToMove"
+                    >Possession Date</label
+                  >
                   <input
                     type="text"
                     class="form-control"
                     formControlName="PossessionOn"
                     #possessionOn
-                    (bsValueChange)="propertyView.estPossessionOn=$any(possessionOn.value)"
+                    (bsValueChange)="
+                      propertyView.estPossessionOn = $any(possessionOn.value)
+                    "
                     bsDatepicker
                     [bsConfig]="{
                       containerClass: 'theme-dark-blue',
                       dateInputFormat: 'MMM DD, YYYY'
                     }"
                   />
+                  <div
+                    class="alert alert-danger"
+                    *ngIf="PossessionOn.invalid && (nextClicked || PossessionOn.touched)"
+                  >Please select establishment / possession date!</div>
                 </div>
 
                 <div class="form-group col-12">
@@ -361,14 +373,14 @@
                   <div class="btn-group" btnRadioGroup formControlName="Gated">
                     <label
                       class="btn btn-outline-primary"
-                      btnRadio="1"
+                      btnRadio=true
                       role="button"
                       name="Gated"
                       >Yes</label
                     >
                     <label
                       class="btn btn-outline-primary"
-                      btnRadio="2"
+                      btnRadio=false
                       role="button"
                       name="Gated"
                       >No</label
